@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 
 //ef core and sqlite
 builder.Services.AddDbContext<AppDatabaseContext>(options =>
-    options.UseSqlite("Data Source=bpbuddy.db"));
+    options.UseSqlite("Data Source=bptracker.db"));
 
 //cors
 builder.Services.AddCors(options =>
