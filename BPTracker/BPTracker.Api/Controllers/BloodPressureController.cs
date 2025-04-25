@@ -1,9 +1,12 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using BPTracker.Api.Data;
 using BPTracker.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BPTracker.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class BloodPressureController : ControllerBase
@@ -18,10 +21,32 @@ namespace BPTracker.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized();
+
+            int userId = int.Parse(userIdClaim.Value);
+
             var entries = _context.BloodPressureEntries
+                .Where(e => e.UserId == userId)
                 .OrderByDescending(e => e.Time)
                 .ToList();
             return Ok(entries);
+        }
+        
+        [HttpGet("whoami")]
+        [Authorize]
+        public IActionResult WhoAmI()
+        {
+            var nameId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var username = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
+
+            return Ok(new
+            {
+                NameIdentifier = nameId,
+                Name = username,
+                IsAuthenticated = User.Identity?.IsAuthenticated
+            });
         }
 
         [HttpPost]
@@ -30,7 +55,14 @@ namespace BPTracker.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized();
+
+            int userId = int.Parse(userIdClaim.Value);
+            entry.UserId = userId;
             entry.Time = DateTime.UtcNow;
+
             _context.BloodPressureEntries.Add(entry);
             _context.SaveChanges();
 

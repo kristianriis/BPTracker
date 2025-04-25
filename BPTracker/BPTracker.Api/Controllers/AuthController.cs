@@ -41,6 +41,8 @@ public class AuthController : ControllerBase
         _context.SaveChanges();
         return Ok("User registered successfully");
     }
+    
+    
 
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
@@ -58,9 +60,9 @@ public class AuthController : ControllerBase
 
     private string GenerateJwtToken(AppUser user)
     {
-        var secret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? "super_super_super_secret_key_that_is_long_enough_to_work_properly_123!";
+        var secret = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#"; // Same as in Program.cs
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
         var claims = new[]
         {
@@ -70,7 +72,7 @@ public class AuthController : ControllerBase
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(60),
+            expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: creds
         );
 

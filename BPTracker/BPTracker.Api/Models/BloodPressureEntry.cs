@@ -19,5 +19,6 @@ public class BloodPressureEntry
     [Required]
     public DateTime Time { get; set; } = DateTime.Now;
     
-    public string? UserId { get; set; }
+    public int UserId { get; set; }
+    public AppUser User { get; set; }
 }
