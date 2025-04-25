@@ -1,4 +1,5 @@
 using BPTracker.Api.Data;
+using BPTracker.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<AuthService>(); 
 
 //ef core and sqlite
 builder.Services.AddDbContext<AppDatabaseContext>(options =>
