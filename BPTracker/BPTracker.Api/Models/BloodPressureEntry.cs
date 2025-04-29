@@ -20,6 +20,8 @@ public class BloodPressureEntry
     [Required]
     public DateTime Time { get; set; } = DateTime.Now;
     
+    public string? Notes { get; set; } = string.Empty;
+    
     public int UserId { get; set; }
     [ValidateNever]
     public AppUser User { get; set; }

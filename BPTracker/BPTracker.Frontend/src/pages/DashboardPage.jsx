@@ -8,6 +8,7 @@ function DashboardPage() {
     const [systolic, setSystolic] = useState('');
     const [diastolic, setDiastolic] = useState('');
     const [pulse, setPulse] = useState('');
+    const [notes, setNotes] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,11 +37,13 @@ function DashboardPage() {
                 systolic: parseInt(systolic),
                 diastolic: parseInt(diastolic),
                 Pulse: parseInt(pulse),
+                Notes: notes
             });
 
             setSystolic('');
             setDiastolic('');
             setPulse('');
+            setNotes('')
             fetchEntries(); // refresh the list
         } catch (error) {
             console.error('Error adding entry', error);
@@ -84,6 +87,15 @@ function DashboardPage() {
                         required
                     />
                 </div>
+
+                <div style={{ marginBottom: '1rem' }}>
+                    <label>Notes:</label><br />
+                    <input
+                        type="text"
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                    />
+                </div>
                 <button type="submit">Add Entry</button>
             </form>
 
@@ -96,6 +108,7 @@ function DashboardPage() {
                         <th>Systolic</th>
                         <th>Diastolic</th>
                         <th>Pulse</th>
+                        <th>Notes</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -105,6 +118,7 @@ function DashboardPage() {
                             <td>{entry.systolic}</td>
                             <td>{entry.diastolic}</td>
                             <td>{entry.pulse}</td>
+                            <td>{entry.notes}</td>
                         </tr>
                     ))}
                     </tbody>
