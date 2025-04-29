@@ -49,7 +49,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddDbContext<AppDatabaseContext>(options =>
-    options.UseSqlite("Data Source=bptracker.db"));
+    options.UseNpgsql("Host=localhost;Database=bptracker;"));
 
 builder.Services.AddCors(options =>
 {

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace BPTracker.Api.Models;
 
@@ -20,5 +21,6 @@ public class BloodPressureEntry
     public DateTime Time { get; set; } = DateTime.Now;
     
     public int UserId { get; set; }
+    [ValidateNever]
     public AppUser User { get; set; }
 }
