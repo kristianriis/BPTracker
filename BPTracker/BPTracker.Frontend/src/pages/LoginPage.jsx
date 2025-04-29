@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { saveToken } from '../api/AuthService';
+import './LoginPage.css';
 import api from '../api/axios';
+import {useNavigate} from "react-router-dom";
 
 function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -19,7 +23,8 @@ function LoginPage() {
             const token = response.data.token;
             console.log('Token received:', token);
 
-            localStorage.setItem('token', token);
+            saveToken(token);
+            navigate('/dashboard');
             alert('Logged in successfully');
         } catch (err) {
             console.error(err);
@@ -89,15 +94,7 @@ function LoginPage() {
                     </div>
 
                     <button
-                        type="submit"
-                        style={{
-                            padding: '0.75rem',
-                            backgroundColor: '#4f46e5',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
-                        }}
+                        type="submit" className={'login-button'}
                     >
                         Login
                     </button>
