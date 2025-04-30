@@ -86,5 +86,27 @@ namespace BPTracker.Api.Controllers
             
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] BloodPressureEntry updatedEntry)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized();
+
+            int userId = int.Parse(userIdClaim.Value);
+            var entry = _context.BloodPressureEntries.FirstOrDefault(e => e.Id == id && e.UserId == userId);
+            if (entry == null)
+                return NotFound();
+
+            entry.Systolic = updatedEntry.Systolic;
+            entry.Diastolic = updatedEntry.Diastolic;
+            entry.Pulse = updatedEntry.Pulse;
+            entry.Notes = updatedEntry.Notes;
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

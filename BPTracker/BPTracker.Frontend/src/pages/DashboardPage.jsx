@@ -10,6 +10,9 @@ function DashboardPage() {
     const [pulse, setPulse] = useState('');
     const [notes, setNotes] = useState('');
     const navigate = useNavigate();
+    const [editingId, setEditingId] = useState(null);
+    const [editedEntry, setEditedEntry] = useState({});
+
 
     useEffect(() => {
         fetchEntries();
@@ -36,6 +39,29 @@ function DashboardPage() {
         }
         catch (error) {
             console.error('Failed to delete entries from DB', error);
+        }
+    }
+
+    const startEdit = (entry) => {
+        setEditingId(entry.id);
+        setEditedEntry({...entry});
+    }
+
+
+    const handleSave = async (id) => {
+        try {
+            await api.put(`/BloodPressure/${id}`,{
+                systolic: parseInt(editedEntry.systolic),
+                diastolic: parseInt(editedEntry.diastolic),
+                pulse: parseInt(editedEntry.pulse),
+                notes: editedEntry.notes
+            });
+
+            setEditingId(null);
+            fetchEntries();
+        }
+        catch (error) {
+            console.error('Failed to update entries from DB', error);
         }
     }
 
@@ -125,15 +151,30 @@ function DashboardPage() {
                     {entries.map((entry) => (
                         <tr key={entry.id}>
                             <td>{new Date(entry.time).toLocaleString()}</td>
-                            <td>{entry.systolic}</td>
-                            <td>{entry.diastolic}</td>
-                            <td>{entry.pulse}</td>
-                            <td>{entry.notes}</td>
-                            <td>
-                                <button onClick={() => handleDelete(entry.id)} style={{ color: 'red' }}>
-                                    Delete
-                                </button>
-                            </td>
+
+                            {editingId === entry.id ? (
+                                <>
+                                    <td><input type="number" value={editedEntry.systolic} onChange={(e) => setEditedEntry({ ...editedEntry, systolic: e.target.value })} /></td>
+                                    <td><input type="number" value={editedEntry.diastolic} onChange={(e) => setEditedEntry({ ...editedEntry, diastolic: e.target.value })} /></td>
+                                    <td><input type="number" value={editedEntry.pulse} onChange={(e) => setEditedEntry({ ...editedEntry, pulse: e.target.value })} /></td>
+                                    <td><input type="text" value={editedEntry.notes} onChange={(e) => setEditedEntry({ ...editedEntry, notes: e.target.value })} /></td>
+                                    <td>
+                                        <button onClick={() => handleSave(entry.id)}>Save</button>
+                                        <button onClick={() => setEditingId(null)}>Cancel</button>
+                                    </td>
+                                </>
+                            ) : (
+                                <>
+                                    <td>{entry.systolic}</td>
+                                    <td>{entry.diastolic}</td>
+                                    <td>{entry.pulse}</td>
+                                    <td>{entry.notes}</td>
+                                    <td>
+                                        <button onClick={() => startEdit(entry)}>Edit</button>
+                                        <button onClick={() => handleDelete(entry.id)} style={{ color: 'red' }}>Delete</button>
+                                    </td>
+                                </>
+                            )}
                         </tr>
                     ))}
                     </tbody>
