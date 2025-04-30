@@ -29,6 +29,16 @@ function DashboardPage() {
         navigate('/login');
     };
 
+    const handleDelete = async (id) => {
+        try {
+            await api.delete(`/BloodPressure/${id}`);
+            fetchEntries();
+        }
+        catch (error) {
+            console.error('Failed to delete entries from DB', error);
+        }
+    }
+
     const handleAddEntry = async (e) => {
         e.preventDefault();
 
@@ -119,6 +129,11 @@ function DashboardPage() {
                             <td>{entry.diastolic}</td>
                             <td>{entry.pulse}</td>
                             <td>{entry.notes}</td>
+                            <td>
+                                <button onClick={() => handleDelete(entry.id)} style={{ color: 'red' }}>
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>

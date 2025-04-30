@@ -68,5 +68,23 @@ namespace BPTracker.Api.Controllers
 
             return CreatedAtAction(nameof(Get), new { id = entry.Id }, entry);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if(userIdClaim == null)
+                return Unauthorized();
+            
+            int userId = int.Parse(userIdClaim.Value);
+            var entry = _context.BloodPressureEntries.FirstOrDefault(e => e.Id  == id && e.UserId == userId);
+            if(entry == null)
+                return NotFound();
+            
+            _context.BloodPressureEntries.Remove(entry);
+            _context.SaveChanges();
+            
+            return NoContent();
+        }
     }
 }
