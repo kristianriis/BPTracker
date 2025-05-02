@@ -100,6 +100,11 @@ function LoginPage() {
                     </button>
                 </form>
             </div>
+
+
+            <button style={{ marginTop: '5rem' }} onClick={() => navigate('/register')} className="signup-button">
+                Sign up
+            </button>
         </div>
     );
 }
