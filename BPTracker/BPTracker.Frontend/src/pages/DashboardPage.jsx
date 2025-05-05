@@ -2,6 +2,16 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { getToken, removeToken } from '../api/AuthService';
 import { useNavigate } from 'react-router-dom';
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    ResponsiveContainer
+} from 'recharts';
+
 
 function DashboardPage() {
     const [entries, setEntries] = useState([]);
@@ -182,6 +192,23 @@ function DashboardPage() {
             ) : (
                 <p>No blood pressure entries found.</p>
             )}
+
+            <h3>Blood Pressure Over Time</h3>
+            <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={entries}>
+                    <XAxis
+                        dataKey="time"
+                        tickFormatter={(tick) =>
+                            new Date(tick).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
+                        }
+                    />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="systolic" stroke="#8884d8" name="Systolic" />
+                    <Line type="monotone" dataKey="diastolic" stroke="#82ca9d" name="Diastolic" />
+                </LineChart>
+            </ResponsiveContainer>
         </div>
     );
 }

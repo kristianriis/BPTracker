@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import {isLoggedIn} from "./api/AuthService.js";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
 
 function App() {
     return (
@@ -10,10 +11,12 @@ function App() {
             <Routes>
                 <Route path="/register" element={<RegisterPage/>} />
                 <Route path="/login" element={<LoginPage />} />
+
                 <Route
                     path="/dashboard"
-                    element={isLoggedIn() ? <DashboardPage /> : <Navigate to="/login" />}
+                    element={<PrivateRoute> <DashboardPage /> </PrivateRoute>}
                 />
+
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </Router>
