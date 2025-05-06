@@ -16,7 +16,7 @@ function MainLayout() {
                 <Link to="/dashboard" style={{ marginRight: '1rem' }}>Dashboard</Link>
                 <Link to="/readings" style={{ marginRight: '1rem' }}>Readings</Link>
                 <Link to="/stats" style={{ marginRight: '1rem' }}>Stats</Link>
-                <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
+                <Link to="/settings" style={{ marginRight: '1rem' }}>Settings</Link>
             </nav>
 
             <main style={{ padding: '2rem' }}>

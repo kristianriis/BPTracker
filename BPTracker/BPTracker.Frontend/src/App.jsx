@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import ReadingsPage from "./pages/ReadingsPage.jsx";
 import StatsPage from "./pages/StatsPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 import MainLayout from "./Layouts/MainLayout.jsx";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Route path="readings" element={<ReadingsPage />} />
                 <Route path="stats" element={<StatsPage />} />
                 <Route path="dashboard" element={<DashboardPage />} />
+                    <Route path="settings" element={<SettingsPage />} />
                 </Route>
 
 

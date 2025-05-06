@@ -53,9 +53,6 @@ function DashboardPage() {
     return (
         <div style={{ padding: '2rem' }}>
             <h2>Dashboard</h2>
-            <button onClick={handleLogout} style={{ marginBottom: '2rem' }}>
-                Logout
-            </button>
 
             {/* New Entry Form */}
             <form onSubmit={handleAddEntry} style={{ marginBottom: '2rem' }}>
