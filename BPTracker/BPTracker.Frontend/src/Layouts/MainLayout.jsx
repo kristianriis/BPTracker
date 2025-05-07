@@ -1,5 +1,10 @@
 import {Outlet, Link, useNavigate} from "react-router-dom";
 import {removeToken} from "../api/AuthService.js";
+import { CircleGauge } from "lucide-react";
+import { BookOpenText } from "lucide-react";
+import {ChartNoAxesCombined} from "lucide-react";
+import {Settings} from 'lucide-react';
+
 
 function MainLayout() {
     const navigate = useNavigate();
@@ -9,15 +14,28 @@ function MainLayout() {
         navigate("/login");
     };
 
+    const navLinks = [
+        {to: "/dashboard", label: "Dashboard", icon: CircleGauge},
+        {to: "/readings", label: "Readings", icon: BookOpenText},
+        {to: "/stats", label: "Stats", icon: ChartNoAxesCombined},
+        {to: "/settings", label: "Settings", icon: Settings},
+    ]
 
     return (
-        <div style={{display: 'flex', minHeight: '100vh'}}>
-            <aside style={{position: 'fixed', top: '0', left: 0, backgroundColor: 'white', width: '100px', height: '100vh', padding: '1rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', boxShadow: '2px 0 5px rgba(0,0,0,0.5)', zIndex: 1000}}>
-                <nav style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
-                    <Link to="/dashboard" style={{marginRight: '1rem'}}>Dashboard</Link>
-                    <Link to="/readings" style={{marginRight: '1rem'}}>Readings</Link>
-                    <Link to="/stats" style={{marginRight: '1rem'}}>Stats</Link>
-                    <Link to="/settings" style={{marginRight: '1rem'}}>Settings</Link>
+        <div className="min-h-dvh">
+
+
+            <aside className="fixed top- left-0 w-42 h-screen p-4 flex flex-col justify-start shadow-md z-50 bg-gray-900 ">
+                <nav className="flex flex-col gap-8 mt-6 mr-2">
+                    {navLinks.map(({ to, label, icon: Icon}) => (
+                        <Link
+                            key={to}
+                            to={to}
+                            className="ml-2 text-white flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-gray-700 transition-colors">
+                            <Icon className="text-orange-700 size-5" />
+                            <span className="text-white">{label}</span>
+                        </Link>
+                        ))}
                 </nav>
             </aside>
 

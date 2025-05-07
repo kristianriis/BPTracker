@@ -25,7 +25,7 @@ function LoginPage() {
 
             saveToken(token);
             navigate('/dashboard');
-            alert('Logged in successfully');
+            // alert('Logged in successfully');
         } catch (err) {
             console.error(err);
             setError('Invalid username or password');
