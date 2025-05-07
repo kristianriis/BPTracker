@@ -51,23 +51,23 @@ function DashboardPage() {
     };
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <h2>Dashboard</h2>
+        <div>
+            <h2 className="text-4xl underline mb-12">Dashboard</h2>
 
-            {/* New Entry Form */}
-            <form onSubmit={handleAddEntry} style={{ marginBottom: '2rem' }}>
-                <div style={{ marginBottom: '1rem' }}>
+            {/* New Entry */}
+            <form onSubmit={handleAddEntry}>
+                <div className="mb-2">
                     <label>Systolic:</label><br />
-                    <input
+                    <input className="mt-1"
                         type="number"
                         value={systolic}
                         onChange={(e) => setSystolic(e.target.value)}
                         required
                     />
                 </div>
-                <div style={{ marginBottom: '1rem' }}>
+                <div className="mb-2">
                     <label>Diastolic:</label><br />
-                    <input
+                    <input className="mt-1"
                         type="number"
                         value={diastolic}
                         onChange={(e) => setDiastolic(e.target.value)}
@@ -75,9 +75,9 @@ function DashboardPage() {
                     />
                 </div>
 
-                <div style={{ marginBottom: '1rem' }}>
+                <div className="mb-2">
                     <label>Pulse:</label><br />
-                    <input
+                    <input className="mt-1"
                         type="number"
                         value={pulse}
                         onChange={(e) => setPulse(e.target.value)}
@@ -85,9 +85,9 @@ function DashboardPage() {
                     />
                 </div>
 
-                <div style={{ marginBottom: '1rem' }}>
+                <div className="mb-2">
                     <label>Notes:</label><br />
-                    <input
+                    <input className="mt-1"
                         type="text"
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}

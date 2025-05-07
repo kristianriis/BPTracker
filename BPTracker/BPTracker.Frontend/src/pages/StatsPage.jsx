@@ -32,7 +32,7 @@ function StatsPage() {
 return(
     <div>
     <h3>Blood Pressure Over Time</h3>
-<ResponsiveContainer width="100%" height={300}>
+<ResponsiveContainer width="100%" height={500}>
     <LineChart data={entries}>
         <XAxis
             dataKey="time"
