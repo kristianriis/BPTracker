@@ -55,55 +55,84 @@ function ReadingsPage() {
         }
     };
 
-    return(
-        <div>
-            <h2>Readings</h2>
-            {entries.length > 0 ? (
-                <table border="1" cellPadding="10" style={{ width: '100%', textAlign: 'left' }}>
-                    <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Systolic</th>
-                        <th>Diastolic</th>
-                        <th>Pulse</th>
-                        <th>Notes</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {entries.map((entry) => (
-                        <tr key={entry.id}>
-                            <td>{new Date(entry.time).toLocaleString()}</td>
+    const startEdit = (entry) => {
+        setEditingId(entry.id);
+        setEditedEntry({
+            systolic: entry.systolic.toString(),
+            diastolic: entry.diastolic.toString(),
+            pulse: entry.pulse.toString(),
+            notes: entry.notes || ''
+        });
+    };
 
-                            {editingId === entry.id ? (
-                                <>
-                                    <td><input type="number" value={editedEntry.systolic} onChange={(e) => setEditedEntry({ ...editedEntry, systolic: e.target.value })} /></td>
-                                    <td><input type="number" value={editedEntry.diastolic} onChange={(e) => setEditedEntry({ ...editedEntry, diastolic: e.target.value })} /></td>
-                                    <td><input type="number" value={editedEntry.pulse} onChange={(e) => setEditedEntry({ ...editedEntry, pulse: e.target.value })} /></td>
-                                    <td><input type="text" value={editedEntry.notes} onChange={(e) => setEditedEntry({ ...editedEntry, notes: e.target.value })} /></td>
-                                    <td>
-                                        <button onClick={() => handleSave(entry.id)}>Save</button>
-                                        <button onClick={() => setEditingId(null)}>Cancel</button>
-                                    </td>
-                                </>
-                            ) : (
-                                <>
-                                    <td>{entry.systolic}</td>
-                                    <td>{entry.diastolic}</td>
-                                    <td>{entry.pulse}</td>
-                                    <td>{entry.notes}</td>
-                                    <td>
-                                        <button onClick={() => startEdit(entry)}>Edit</button>
-                                        <button onClick={() => handleDelete(entry.id)} style={{ color: 'red' }}>Delete</button>
-                                    </td>
-                                </>
-                            )}
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            ) : (
-                <p>No blood pressure entries found.</p>
-            )}
+    return(
+        <div className="space-y-4">
+            <h2 className="text-4xl mb-8 mt-4 font-bold text-center text-textMain">Your data</h2>
+
+            {entries.map((entry) => (
+                <div
+                    key={entry.id}
+                    className="p-4 bg-primary rounded-lg shadow-md border border-gray-700"
+                >
+                    <div className="text-sm text-textMain mb-2">
+                        {new Date(entry.time).toLocaleString()}
+                    </div>
+
+                    {editingId === entry.id ? (
+                        <>
+                            <div className="grid grid-cols-2 gap-4 ">
+                                <input
+                                    type="number"
+                                    value={editedEntry.systolic}
+                                    onChange={(e) => setEditedEntry({ ...editedEntry, systolic: e.target.value })}
+                                    className="p-2 rounded bg-gray-700 text-textMain focus:outline-none focus:ring-2 focus:ring-orange-600"
+                                    placeholder="Systolic"
+                                />
+                                <input
+                                    type="number"
+                                    value={editedEntry.diastolic}
+                                    onChange={(e) => setEditedEntry({ ...editedEntry, diastolic: e.target.value })}
+                                    className="p-2 rounded bg-gray-700 text-textMain focus:outline-none focus:ring-2 focus:ring-orange-600"
+                                    placeholder="Diastolic"
+                                />
+                                <input
+                                    type="number"
+                                    value={editedEntry.pulse}
+                                    onChange={(e) => setEditedEntry({ ...editedEntry, pulse: e.target.value })}
+                                    className="p-2 rounded bg-gray-700 text-textMain focus:outline-none focus:ring-2 focus:ring-orange-600"
+                                    placeholder="Pulse"
+                                />
+                                <input
+                                    type="text"
+                                    value={editedEntry.notes}
+                                    onChange={(e) => setEditedEntry({ ...editedEntry, notes: e.target.value })}
+                                    className="p-2 rounded bg-gray-700 text-textMain col-span-2 focus:outline-none focus:ring-2 focus:ring-orange-600"
+                                    placeholder="Notes"
+                                />
+                            </div>
+                            <div className="mt-4 flex gap-2">
+                                <button onClick={() => handleSave(entry.id)} className="px-4 py-2 bg-green-600 rounded">Save</button>
+                                <button onClick={() => setEditingId(null)} className="px-4 py-2 bg-gray-600 rounded">Cancel</button>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-2 gap-2 text-sm text-textMain">
+                                <div>Systolic: {entry.systolic}</div>
+                                <div>Diastolic: {entry.diastolic}</div>
+                                <div>Pulse: {entry.pulse}</div>
+                                <div>Notes: {entry.notes}</div>
+                            </div>
+                            <div className="mt-4 flex gap-2">
+                                <button onClick={() => startEdit(entry)} className="px-4 py-2 bg-cyan-800 rounded text-primary hover:border-white">
+                                    Edit
+                                </button>
+                                <button onClick={() => handleDelete(entry.id)} className="px-4 py-2 bg-orange-700 rounded text-primary hover:border-white">Delete</button>
+                            </div>
+                        </>
+                    )}
+                </div>
+            ))}
         </div>
     )
 }

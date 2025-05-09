@@ -11,6 +11,7 @@ function RegisterPage() {
 
     return (
         <div>
+            <h2 className="text-4xl mb-8 mt-4 font-bold text-center text-textMain">Settings</h2>
             <button onClick={handleLogout} style={{ marginBottom: '2rem' }}>
                 Logout
             </button>        </div>
